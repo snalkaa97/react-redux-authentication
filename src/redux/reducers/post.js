@@ -13,7 +13,9 @@
  /**
   * State awal. Biasanya kosong, false, 0, dll, tapi balik lagi sesuai kebutuhan.
   */
- const initialState = [];
+ const initialState = {
+    posts: []
+ };
  
  /**
   * Daftar fungsi reducers buat CRUD initial state.
@@ -23,8 +25,8 @@
   */
  const reducers =
  {
-   getAllPost: (state, action) => {
-    state = action.payload;
+   setAllPost: (state, action) => {
+    state.posts = action.payload;
    },
    addPost: (state, action) =>
    {
@@ -41,19 +43,6 @@
  
      state = [...state.slice(0, PostIndex), ...state.slice(PostIndex + 1)];
    },
-   fetchPost: (state, action) => {
-     apiClient.get('/api/post',{
-        headers: {
-            'x-access-token': action.payload
-        }
-     })
-     .then((response)=>{
-        // console.log(response);
-        state = response.data;
-        console.log(state.data)
-     })
-     .catch(err=>console.error(err));
-   },
  };
  
  /**
@@ -69,7 +58,7 @@
  /**
   * Terus kita export semua fungsi reducers yang udah kita buat tadi.
   */
- export const {getAllPost, addPost, updatePost, deletePost, fetchPost} = slice.actions;
+ export const {setAllPost, addPost, updatePost, deletePost} = slice.actions;
  
  export default slice.reducer;
  
