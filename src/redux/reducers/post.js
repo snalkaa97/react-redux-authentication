@@ -38,10 +38,9 @@
    },
    deletePost: (state, action) =>
    {
-     console.log(action);
-     const PostIndex = state.map((post) => post.id).indexOf(action.payload);
+     const PostIndex = state.posts.map((post) => post.id).indexOf(action.payload);
  
-     state = [...state.slice(0, PostIndex), ...state.slice(PostIndex + 1)];
+     state.posts = [...state.posts.slice(0, PostIndex), ...state.posts.slice(PostIndex + 1)];
    },
  };
  

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updatePost } from '../redux/reducers/post';
 import apiClient from '../services/apiClient';
 import { useParams, useNavigate } from 'react-router-dom';
+import Header from './partials/Header';
 
 const EditPost = () => {
     const dispatch = useDispatch()
@@ -41,6 +42,7 @@ const EditPost = () => {
     }
     return (
         <div>
+            <Header/>
             <h2>Edit Post</h2>
             <form>
                 <div>

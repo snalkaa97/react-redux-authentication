@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Header from './partials/Header'
 import { useDispatch, useSelector } from 'react-redux';
-import { setAllPost, addPost as addNewPost } from '../redux/reducers/post'
+import { setAllPost, addPost as addNewPost, deletePost } from '../redux/reducers/post'
 import apiClient from '../services/apiClient';
 import { Link } from 'react-router-dom'
 
@@ -45,6 +45,18 @@ const Post = () => {
 
     const isForm = () => {
         setAddPost(!isAddPost);
+    }
+
+    const onDelete = (id) => {
+        apiClient.delete(`/api/post/${id}`,{
+            headers: {
+                'x-access-token': userToken
+            }
+        })
+        .then((response)=>{
+            dispatch(deletePost(id))
+        })
+
     }
 
     const {posts} = useSelector((state) => state.configPost);
@@ -92,6 +104,8 @@ const Post = () => {
                     <p>{post.desc}</p>
                     <p>author by: {post.User.name}</p>
                     <Link to={`/post/${post.id}`}>edit</Link>
+                    <br />
+                    <Link onClick={()=>onDelete(post.id)}>delete</Link>
                 </div>
                 )
             }): (
