@@ -34,7 +34,7 @@
    },
    updatePost: (state, action) =>
    {
-     state = state.map((post) => (post.id === action.payload.id ? action.payload : post))
+     state.posts = state.posts.map((post) => (post.id === action.payload.id ? action.payload : post))
    },
    deletePost: (state, action) =>
    {

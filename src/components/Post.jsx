@@ -3,9 +3,12 @@ import Header from './partials/Header'
 import { useDispatch, useSelector } from 'react-redux';
 import { setAllPost, addPost as addNewPost } from '../redux/reducers/post'
 import apiClient from '../services/apiClient';
+import { Link } from 'react-router-dom'
+
+
 const Post = () => {
     const dispatch = useDispatch();
-    let {userToken} = useSelector((state)=> state.auth);
+    let {userToken} = useSelector((state)=> state.configAuth);
     useEffect(()=>{
         (async ()=> {
             await apiClient.get('/api/post',{
@@ -44,7 +47,7 @@ const Post = () => {
         setAddPost(!isAddPost);
     }
 
-    const posts = useSelector((state) => state.post.posts);
+    const {posts} = useSelector((state) => state.configPost);
     useEffect(()=>{
         console.log('success')
     },[posts, userToken, isAddPost, title, desc]);
@@ -88,6 +91,7 @@ const Post = () => {
                     <h2>{post.title}</h2>
                     <p>{post.desc}</p>
                     <p>author by: {post.User.name}</p>
+                    <Link to={`/post/${post.id}`}>edit</Link>
                 </div>
                 )
             }): (
