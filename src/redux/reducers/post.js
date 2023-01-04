@@ -30,7 +30,7 @@
    },
    addPost: (state, action) =>
    {
-     state = [...state, action.payload];
+     state.posts = [...state.posts, action.payload];
    },
    updatePost: (state, action) =>
    {

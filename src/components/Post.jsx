@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './partials/Header'
 import { useDispatch, useSelector } from 'react-redux';
-import { setAllPost } from '../redux/reducers/post'
+import { setAllPost, addPost as addNewPost } from '../redux/reducers/post'
 import apiClient from '../services/apiClient';
 const Post = () => {
     const dispatch = useDispatch();
@@ -18,15 +18,68 @@ const Post = () => {
             })
         })()
     }, [])
+
+    const [isAddPost, setAddPost] = useState(false);
+    const [title, setTitle] = useState('');
+    const [desc, setDesc] = useState('');
+    const [error, setError] = useState('');
+
+    const addPost = () => {
+        // e.preventDefault();
+        apiClient.post('/api/post',{title: title, desc: desc},{
+            headers: {
+                'x-access-token': userToken
+            }
+        })
+        .then((response)=>{
+            console.log(response);
+            setAddPost(false);
+            setTitle('');
+            setDesc('');
+            dispatch(addNewPost(response.data.data));
+        })
+    }
+
+    const isForm = () => {
+        setAddPost(!isAddPost);
+    }
+
     const posts = useSelector((state) => state.post.posts);
     useEffect(()=>{
-    },[posts, userToken]);
+        console.log('success')
+    },[posts, userToken, isAddPost, title, desc]);
     return (
         <div>
             <Header/>
             <h1>
                 Posts
             </h1>
+            <button onClick={isForm}>Add Post</button>
+            {isAddPost ? <div>
+                <form>
+                <div>
+                    <label htmlFor="title">Title</label>
+                    <input
+                        type="title"
+                        id="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="desc">Desc</label>
+                    <input
+                        type="desc"
+                        id="desc"
+                        value={desc}
+                        onChange={(e) => setDesc(e.target.value)}
+                        />
+                </div>
+                <div>
+                    <button type="button" onClick={addPost}>Submit</button>
+                </div>
+                </form>
+            </div> : null}
             {
             (posts.length > 0) ?
             posts.map((post, index)=>{
