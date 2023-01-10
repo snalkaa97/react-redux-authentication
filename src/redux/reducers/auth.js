@@ -20,15 +20,6 @@
     error: null,
     success: false,
  };
-const userToken = localStorage.getItem('userToken') ? localStorage.getItem('userToken') : null
-if (userToken != null) {
-    initialState = {
-        auth: true,
-        userToken: userToken,
-        error: null,
-        success: true,
-    }
-}    
  
  /**
   * Daftar fungsi reducers buat CRUD initial state.

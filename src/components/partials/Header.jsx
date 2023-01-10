@@ -6,7 +6,7 @@ import { logout } from '../../redux/reducers/auth'
 
 export default function Header() {
     const dispatch = useDispatch();
-    const { userToken, auth } = useSelector((state)=>state.configAuth);
+    const { userToken, auth } = useSelector((state)=>state.auth);
 
     useEffect(()=>{
     },[userToken, auth])

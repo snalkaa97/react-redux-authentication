@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { NavLink, Outlet } from 'react-router-dom'
 
 const Protected = () => {
-    const { auth } = useSelector((state)=> state.configAuth);
+    const { auth } = useSelector((state)=> state.auth);
     if(!auth){
         return (
         <div className='unauthorized'>

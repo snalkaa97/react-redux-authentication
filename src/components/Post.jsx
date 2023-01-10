@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 
 const Post = () => {
     const dispatch = useDispatch();
-    let {userToken} = useSelector((state)=> state.configAuth);
+    let {userToken} = useSelector((state)=> state.auth);
     useEffect(()=>{
         (async ()=> {
             await apiClient.get('/api/post',{
@@ -20,7 +20,7 @@ const Post = () => {
                 dispatch(setAllPost(response.data.data));
             })
         })()
-    }, [])
+    },[])
 
     const [isAddPost, setAddPost] = useState(false);
     const [title, setTitle] = useState('');
@@ -29,6 +29,7 @@ const Post = () => {
 
     const addPost = () => {
         // e.preventDefault();
+        if(!title || !desc) return setError('Please enter a title and desc');
         apiClient.post('/api/post',{title: title, desc: desc},{
             headers: {
                 'x-access-token': userToken
@@ -59,10 +60,10 @@ const Post = () => {
 
     }
 
-    const {posts} = useSelector((state) => state.configPost);
+    const {posts} = useSelector((state) => state.post);
     useEffect(()=>{
         console.log('success')
-    },[posts, userToken, isAddPost, title, desc]);
+    },[posts, userToken, isAddPost]);
     return (
         <div>
             <Header/>
@@ -71,6 +72,7 @@ const Post = () => {
             </h1>
             <button onClick={isForm}>Add Post</button>
             {isAddPost ? <div>
+                {(error) && (error)}
                 <form>
                 <div>
                     <label htmlFor="title">Title</label>

@@ -11,8 +11,8 @@
  import { createConfig } from './configRedux';
 
 
- const configAuth = persistReducer(createConfig('auth', ['userToken']),authReducer);
- const configPost = persistReducer(createConfig('post', ['posts']), postReducer);
+ const auth = persistReducer(createConfig('auth', ['userToken']),authReducer);
+ const post = persistReducer(createConfig('post', ['posts']), postReducer);
  
  /**
   * Deklarasi middleware, udah template. Sesuai namanya middleware bakal jalan saat kondisi tertentu yang udah kita tentuin contoh ada perubahan state ataupun kondisi actionnya.
@@ -29,7 +29,7 @@
  
  const store = configureStore(
  {
-   reducer: persistReducer(createConfig('root'), combineReducers({configAuth, configPost})),
+   reducer: persistReducer(createConfig('root'), combineReducers({auth, post})),
    middleware: middleware, /** Middlewarenya. */
    devTools: process.env.NODE_ENV !== 'production' /** devTools tujuannya biar kita bisa liat/debug state Redux di browser pakai extension namanya Redux DevTools. Kita kasih kondisi buat cek environment NODE_ENV, kalau production berarti di disable, selebihnya enable. Redux DevTools buat Chrome bisa diinstall di sini: https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en */
  });
